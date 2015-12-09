@@ -12,7 +12,7 @@
 class CommandSwitch {
 
 public:
-    std::unique_ptr<Command> getCommand(const std::string &inputString);
+    std::unique_ptr<Command> getCommand(std::vector<std::string> &args);
 };
 
 #endif //DELOREAN_COMMAND_SWITCH_H

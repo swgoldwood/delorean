@@ -7,11 +7,12 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 class InputHandler {
 public:
 
-    std::string getUserInput();
+    std::vector<std::string> getUserInput();
 };
 
 #endif //DELOREAN_INPUT_HANDLER_H

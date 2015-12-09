@@ -10,16 +10,16 @@
 class Observation {
 private:
     long _ts;
-    std::string data;
+    std::string _data;
 
 public:
-    Observation(long ts, std::string data);
+    Observation(const long ts, const std::string data);
 
     std::string getData() const;
 
     long getTs() const;
 
-    bool std::operator< (const Observation) const;
+    bool operator< (const Observation) const;
 };
 
 

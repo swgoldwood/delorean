@@ -12,14 +12,21 @@ Delorean::Delorean() {
 
 int Delorean::start() {
     while(true) {
-        std::string inputString = inputHandler.getUserInput();
+        std::vector<std::string> args = inputHandler.getUserInput();
 
-        if(inputString == "exit") {
+        if(args.size() > 0 && args[0] == "exit") {
             std::cout << "exiting..." << std::endl;
             break;
         }
+        std::unique_ptr<Command> command = nullptr;
 
-        std::unique_ptr<Command> command = commandSwitch.getCommand(inputString);
+        try {
+            command = commandSwitch.getCommand(args);
+        }
+        catch(std::invalid_argument e) {
+            std::cout << "ERR " << e.what() << std::endl;
+            continue;
+        }
 
         std::string errmsg;
         if(command->run(temporalDatastore, errmsg)) {

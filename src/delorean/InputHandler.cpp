@@ -4,15 +4,16 @@
 
 #include <string>
 #include <boost/algorithm/string.hpp>
+#include <sstream>
 #include "InputHandler.h"
 
-std::string InputHandler::getUserInput() {
+std::vector<std::string> InputHandler::getUserInput() {
     std::string input;
     std::getline(std::cin, input);
 
-    boost::to_upper(input);
+    std::istringstream buffer(input);
+    std::vector<std::string> ret{std::istream_iterator<std::string>{buffer},
+                                 std::istream_iterator<std::string>{}};
 
-    std::cout << "input: " << input << std::endl;
-
-    return input;
+    return ret;
 }
