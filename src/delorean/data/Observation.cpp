@@ -17,7 +17,7 @@ long Observation::getTs() const {
     return _ts;
 }
 
-bool Observation::operator<(const Observation observation) const {
+bool Observation::operator<(const Observation &observation) const {
     if (_ts < observation.getTs()) {
         return true;
     }
@@ -25,3 +25,4 @@ bool Observation::operator<(const Observation observation) const {
         return false;
     }
 }
+

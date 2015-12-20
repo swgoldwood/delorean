@@ -8,9 +8,6 @@
 #include<string>
 
 class Observation {
-private:
-    long _ts;
-    std::string _data;
 
 public:
     Observation(const long ts, const std::string data);
@@ -19,7 +16,13 @@ public:
 
     long getTs() const;
 
-    bool operator< (const Observation) const;
+    bool operator< (const Observation&) const;
+    //bool operator< (const Observation&, const Observation&) const;
+
+private:
+    long _ts;
+    std::string _data;
+
 };
 
 

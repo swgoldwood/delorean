@@ -11,10 +11,17 @@
 class CreateCommand : public Command {
 
 public:
-    CreateCommand(int id, long timestamp, std::string data);
+    CreateCommand(const std::vector<std::string> &args);
 
-    virtual bool run(TemporalDatastore &temporalDatastore, std::string &errmsg);
+    virtual Observation run(TemporalDatastore &temporalDatastore);
 
+protected:
+    virtual bool validate(const std::vector<std::string> &args);
+
+private:
+    int _id;
+    long _ts;
+    std::string _data;
 };
 
 

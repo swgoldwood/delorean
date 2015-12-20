@@ -9,7 +9,10 @@
 
 std::vector<std::string> InputHandler::getUserInput() {
     std::string input;
-    std::getline(std::cin, input);
+
+    if(!std::getline(std::cin, input)) {
+        return std::vector<std::string> {"EXIT"};
+    }
 
     std::istringstream buffer(input);
     std::vector<std::string> ret{std::istream_iterator<std::string>{buffer},

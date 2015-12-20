@@ -5,12 +5,22 @@
 #include <iostream>
 #include "CreateCommand.h"
 
-bool CreateCommand::run(TemporalDatastore &temporalDatastore, std::string &errmsg) {
-    errmsg = "CreateCommand: Not implemented yet";
+CreateCommand::CreateCommand(const std::vector<std::string> &args): Command() {
+    validate(args);
 
-    return temporalDatastore.create(1,1.0, "data");
+    _id = std::stoi(args[1]);
+    _ts = std::stol(args[2]);
+    _data = args[3];
 }
 
-CreateCommand::CreateCommand(int id, long timestamp, std::string data): Command(id, timestamp, data) {
+bool CreateCommand::validate(const std::vector<std::string> &args) {
+    if (args.size() != 4) {
+        throw std::invalid_argument("CREATE requires 3 args: <id> <ts> <data>");
+    }
 
+    return true;
+}
+
+Observation CreateCommand::run(TemporalDatastore &temporalDatastore) {
+    return temporalDatastore.create(_id, _ts, _data);
 }

@@ -13,14 +13,10 @@
 class Command {
 
 public:
-    Command(int id, long timestamp, std::string data);
-    virtual bool run(TemporalDatastore &temporalDatastore, std::string &errmsg) = 0;
+    virtual Observation run(TemporalDatastore &temporalDatastore) = 0;
 
-private:
-    int _id;
-    long _timestamp;
-    std::string _data;
-    std::vector<std::string> _args;
+protected:
+    virtual bool validate(const std::vector<std::string> &args) = 0;
 };
 
 #endif //DELOREAN_COMMAND_H

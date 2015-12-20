@@ -10,6 +10,7 @@ set(HEADER_FILES
         commands/CommandSwitch.h
         commands/CreateCommand.h
         commands/LatestCommand.h
+        commands/UpdateCommand.h
         data/Observation.h
         data/TemporalDatastore.h
         )
@@ -17,12 +18,11 @@ set(HEADER_FILES
 set(SOURCE_FILES
         Delorean.cpp
         InputHandler.cpp
-        commands/Command.cpp
         commands/CommandSwitch.cpp
         commands/CreateCommand.cpp
         commands/LatestCommand.cpp
         data/Observation.cpp
         data/TemporalDatastore.cpp
-        )
+        commands/UpdateCommand.cpp commands/GetCommand.cpp commands/GetCommand.h)
 
 add_library(delorean STATIC ${SOURCE_FILES} ${HEADER_FILES})
