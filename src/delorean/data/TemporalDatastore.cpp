@@ -60,6 +60,13 @@ Observation TemporalDatastore::latest(const int id) const {
     }
     else {
         std::set<Observation>* existingBucket = bucket->second;
+
+        if(existingBucket->empty()) {
+            std::stringstream msg;
+            msg << "No data found for id '" << id << "'. Bucket is empty.";
+            throw std::invalid_argument(msg.str());
+        }
+
         Observation observation = *existingBucket->rbegin();
 
         return observation;
@@ -76,6 +83,13 @@ Observation TemporalDatastore::get(const int id, const long ts) const {
     }
 
     std::set<Observation>* bucketSet = bucket->second;
+
+    if(bucketSet->empty()) {
+        std::stringstream msg;
+        msg << "No data found for id '" << id << "' and ts '" << ts << "'. Bucket is empty.";
+        throw std::invalid_argument(msg.str());
+    }
+
     std::set<Observation>::const_iterator observationIt = bucketSet->upper_bound(Observation(ts, ""));
 
     if(observationIt == bucketSet->begin()) {
@@ -94,9 +108,27 @@ Observation TemporalDatastore::get(const int id, const long ts) const {
 }
 
 Observation TemporalDatastore::remove(const int id, const long ts) {
-    return Observation(0, "");
-}
+    std::map<int, std::set<Observation>*>::const_iterator bucket = _temporalDataStore.find(id);
 
-Observation TemporalDatastore::remove(const int id) {
-    return Observation(0, "");
+    if(bucket == _temporalDataStore.end()) {
+        std::stringstream msg;
+        msg << "Bucket for id '" << id << "' doesn't exist";
+        throw std::invalid_argument(msg.str());
+    }
+
+    std::set<Observation>* bucketSet = bucket->second;
+    std::set<Observation>::reverse_iterator observationIt = bucketSet->rbegin();
+
+    while(observationIt != bucketSet->rend()) {
+        if(observationIt->getTs() <= ts) {
+            return *(std::next(observationIt).base());
+        }
+        else {
+            bucketSet->erase(std::next(observationIt).base());
+        }
+    }
+
+    std::stringstream msg;
+    msg << "No data found for id '" << id << "' and ts <= '" << ts << "'";
+    throw std::invalid_argument(msg.str());
 }

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 2.8)
 project(delorean)
 
 add_definitions(-std=c++11)
@@ -23,6 +23,6 @@ set(SOURCE_FILES
         commands/LatestCommand.cpp
         data/Observation.cpp
         data/TemporalDatastore.cpp
-        commands/UpdateCommand.cpp commands/GetCommand.cpp commands/GetCommand.h)
+        commands/UpdateCommand.cpp commands/GetCommand.cpp commands/GetCommand.h commands/DeleteCommand.cpp commands/DeleteCommand.h)
 
 add_library(delorean STATIC ${SOURCE_FILES} ${HEADER_FILES})

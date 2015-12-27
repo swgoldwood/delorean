@@ -19,7 +19,6 @@ public:
     Observation get(const int id, const long ts) const;
     Observation latest(const int id) const;
     Observation remove(const int id, const long ts);
-    Observation remove(const int id);
 
 private:
     std::map<int, std::set<Observation>*> _temporalDataStore;

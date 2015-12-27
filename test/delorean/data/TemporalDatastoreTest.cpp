@@ -45,3 +45,22 @@ TEST(TemporalDatastoreTest, testLatest) {
     ds.update(1, 4, "1.4");
     EXPECT_EQ("1.4", ds.latest(1).getData());
 }
+
+/*
+ * Remove deletes all observations more recent than the input timestamp
+ * and returns the observation less than or equal to timestamp. Throws
+ * an invalid_argument exception if no applicable observation exists
+ */
+TEST(TemporalDatastoreTest, testRemove) {
+    TemporalDatastore ds = TemporalDatastore();
+
+    ds.create(1, 1, "1.1");
+    ds.update(1, 2, "1.2");
+    ds.update(1, 3, "1.3");
+    ds.update(1, 4, "1.4");
+
+    EXPECT_EQ("1.4", ds.latest(1).getData());
+    EXPECT_EQ("1.2", ds.remove(1, 2).getData());
+
+    EXPECT_THROW(ds.remove(1, 0), std::invalid_argument);
+}

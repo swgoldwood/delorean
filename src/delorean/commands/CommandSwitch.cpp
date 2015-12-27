@@ -8,6 +8,7 @@
 #include "UpdateCommand.h"
 #include "LatestCommand.h"
 #include "GetCommand.h"
+#include "DeleteCommand.h"
 #include <boost/algorithm/string.hpp>
 
 Command* CommandSwitch::getCommand(const std::vector<std::string> &args) {
@@ -31,6 +32,9 @@ Command* CommandSwitch::getCommand(const std::vector<std::string> &args) {
     }
     else if(commandType == "LATEST") {
         cmd = new LatestCommand(args);
+    }
+    else if(commandType == "DELETE") {
+        cmd = new DeleteCommand(args);
     }
     else {
         throw std::invalid_argument("'" + commandType + "' is not a valid command");
