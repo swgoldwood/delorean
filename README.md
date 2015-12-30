@@ -27,29 +27,29 @@ Install steps:
 
 Available commands:
 
-1. CREATE <id> <timestamp> <data> - create bucket for an <id>
+1. CREATE \<id\> \<timestamp\> \<data\> - create bucket for an \<id\>
 
         CREATE 1 1 1.0
         OK 1 1.0
 
-2. UPDATE <id> <timestamp> <data> - update bucket to add or modify data
+2. UPDATE \<id\> \<timestamp\> \<data\> - update bucket to add or modify data
 
         UPDATE 1 5 1.5
         OK 5 1.5
         UPDATE 1 4 1.4
         OK 4 1.4
 
-2. GET <id> <timestamp> - get latest data for given <timestamp>
+2. GET \<id\> \<timestamp\> - get latest data for given \<timestamp\>
 
         GET 1 2
         OK 1 1.0
 
-2. LATEST <id> - get latest data for bucket
+2. LATEST \<id\> - get latest data for bucket
 
         LATEST 1
         OK 5 1.5
 
-2. DELETE <id> <timestamp> - delete data newer than <timestamp>
+2. DELETE \<id\> \<timestamp\> - delete data newer than \<timestamp\>
 
         DELETE 1 4
         OK 4 1.4
