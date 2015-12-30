@@ -9,6 +9,8 @@
 #include <string>
 #include <map>
 #include <set>
+#include <mutex>
+#include <memory>
 #include "Observation.h"
 
 class TemporalDatastore {
@@ -22,6 +24,7 @@ public:
 
 private:
     std::map<int, std::set<Observation>*> _temporalDataStore;
+    std::map<int, std::mutex*> _bucketMutexes;
 };
 
 

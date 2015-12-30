@@ -4,7 +4,7 @@
 
 #include "TemporalDatastore.h"
 
-#include<sstream>
+#include <sstream>
 #include <iostream>
 
 Observation TemporalDatastore::create(const int id, const long ts, const std::string &data) {
@@ -17,6 +17,7 @@ Observation TemporalDatastore::create(const int id, const long ts, const std::st
         newBucket->insert(observation);
 
         _temporalDataStore.insert(std::pair<int, std::set<Observation>*>(id, newBucket));
+        _bucketMutexes.insert(std::pair<int, std::mutex*>(id, new std::mutex));
     }
     else {
         std::stringstream msg;
@@ -37,6 +38,8 @@ Observation TemporalDatastore::update(const int id, const long ts, const std::st
         throw std::invalid_argument(msg.str());
     }
     else {
+        std::lock_guard<std::mutex> bucketLock(*_bucketMutexes.find(id)->second);
+
         std::set<Observation>* existingBucket = bucket->second;
         std::set<Observation>::iterator existingObservation = existingBucket->find(observation);
 
@@ -59,6 +62,8 @@ Observation TemporalDatastore::latest(const int id) const {
         throw std::invalid_argument(msg.str());
     }
     else {
+        std::lock_guard<std::mutex> bucketLock(*_bucketMutexes.find(id)->second);
+
         std::set<Observation>* existingBucket = bucket->second;
 
         if(existingBucket->empty()) {
@@ -81,6 +86,8 @@ Observation TemporalDatastore::get(const int id, const long ts) const {
         msg << "Bucket for id '" << id << "' doesn't exist";
         throw std::invalid_argument(msg.str());
     }
+
+    std::lock_guard<std::mutex> bucketLock(*_bucketMutexes.find(id)->second);
 
     std::set<Observation>* bucketSet = bucket->second;
 
@@ -115,6 +122,8 @@ Observation TemporalDatastore::remove(const int id, const long ts) {
         msg << "Bucket for id '" << id << "' doesn't exist";
         throw std::invalid_argument(msg.str());
     }
+
+    std::lock_guard<std::mutex> bucketLock(*_bucketMutexes.find(id)->second);
 
     std::set<Observation>* bucketSet = bucket->second;
     std::set<Observation>::reverse_iterator observationIt = bucketSet->rbegin();
