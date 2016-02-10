@@ -20,7 +20,7 @@ bool UpdateCommand::validate(const std::vector<std::string> &args) {
     return true;
 }
 
-Observation UpdateCommand::run(TemporalDatastore &temporalDatastore) {
-    return temporalDatastore.update(_id, _ts, _data);
+Observation UpdateCommand::run(TemporalDatastore *temporalDatastore) {
+    return temporalDatastore->update(_id, _ts, _data);
 }
 

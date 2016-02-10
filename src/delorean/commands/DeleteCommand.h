@@ -12,7 +12,7 @@ class DeleteCommand : public Command {
 public:
     DeleteCommand(const std::vector<std::string> &args);
 
-    virtual Observation run(TemporalDatastore &temporalDatastore);
+    virtual Observation run(TemporalDatastore *temporalDatastore);
 
 protected:
     virtual bool validate(const std::vector<std::string> &args);

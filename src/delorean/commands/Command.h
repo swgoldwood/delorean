@@ -13,7 +13,7 @@
 class Command {
 
 public:
-    virtual Observation run(TemporalDatastore &temporalDatastore) = 0;
+    virtual Observation run(TemporalDatastore *temporalDatastore) = 0;
 
 protected:
     virtual bool validate(const std::vector<std::string> &args) = 0;

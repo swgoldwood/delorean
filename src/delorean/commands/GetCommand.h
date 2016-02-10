@@ -13,7 +13,7 @@ class GetCommand : public Command {
 public:
     GetCommand(const std::vector<std::string> &args);
 
-    virtual Observation run(TemporalDatastore &temporalDatastore);
+    virtual Observation run(TemporalDatastore *temporalDatastore);
 
 protected:
     virtual bool validate(const std::vector<std::string> &args);

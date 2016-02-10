@@ -4,33 +4,35 @@
 
 #include "Delorean.h"
 #include <boost/algorithm/string.hpp>
+#include <thread>
+#include <network/Server.h>
+#include <query/ClientQuery.h>
 
 Delorean::Delorean() {
-    inputHandler = InputHandler();
     commandSwitch = CommandSwitch();
     temporalDatastore = TemporalDatastore();
 }
 
-int Delorean::start() {
-    while(true) {
-        std::vector<std::string> args = inputHandler.getUserInput();
+void startServer(TemporalDatastore *temporalDatastore) {
+    Server server;
+    server.start(temporalDatastore);
+}
 
-        if(args.size() == 1 && boost::to_upper_copy(args[0]) == "exit") {
+int Delorean::start() {
+
+    std::thread t1 (startServer, &temporalDatastore);
+
+    ClientQuery clientQuery;
+    while(true) {
+        std::string input;
+
+        if(!std::getline(std::cin, input) || boost::to_upper_copy(input) == "exit") {
             std::cout << "exiting..." << std::endl;
             break;
         }
 
-        try {
-            std::unique_ptr<Command> command = std::unique_ptr<Command>(commandSwitch.getCommand(args));
-            Observation observation = command->run(temporalDatastore);
-
-            std::cout << "OK " << observation.getTs() << " "
-                      << observation.getData() << std::endl;
-        }
-        catch(std::invalid_argument e) {
-            std::cout << "ERR " << e.what() << std::endl;
-            continue;
-        }
+        std::string result = clientQuery.executeQuery(input, &temporalDatastore);
+        std::cout << result << std::endl;
     }
 
     return 0;

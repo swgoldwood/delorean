@@ -21,6 +21,6 @@ bool CreateCommand::validate(const std::vector<std::string> &args) {
     return true;
 }
 
-Observation CreateCommand::run(TemporalDatastore &temporalDatastore) {
-    return temporalDatastore.create(_id, _ts, _data);
+Observation CreateCommand::run(TemporalDatastore *temporalDatastore) {
+    return temporalDatastore->create(_id, _ts, _data);
 }

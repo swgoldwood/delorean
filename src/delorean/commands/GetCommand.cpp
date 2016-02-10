@@ -19,6 +19,6 @@ bool GetCommand::validate(const std::vector<std::string> &args) {
     return true;
 }
 
-Observation GetCommand::run(TemporalDatastore &temporalDatastore) {
-    return temporalDatastore.get(_id, _ts);
+Observation GetCommand::run(TemporalDatastore *temporalDatastore) {
+    return temporalDatastore->get(_id, _ts);
 }

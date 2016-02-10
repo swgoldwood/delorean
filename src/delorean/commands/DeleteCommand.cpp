@@ -19,6 +19,6 @@ bool DeleteCommand::validate(const std::vector<std::string> &args) {
     return true;
 }
 
-Observation DeleteCommand::run(TemporalDatastore &temporalDatastore) {
-    return temporalDatastore.remove(_id, _ts);
+Observation DeleteCommand::run(TemporalDatastore *temporalDatastore) {
+    return temporalDatastore->remove(_id, _ts);
 }

@@ -18,7 +18,7 @@ bool LatestCommand::validate(const std::vector<std::string> &args) {
     return true;
 }
 
-Observation LatestCommand::run(TemporalDatastore &temporalDatastore) {
-    return temporalDatastore.latest(_id);
+Observation LatestCommand::run(TemporalDatastore *temporalDatastore) {
+    return temporalDatastore->latest(_id);
 }
 

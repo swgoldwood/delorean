@@ -5,7 +5,6 @@
 #ifndef DELOREAN_DELOREAN_H
 #define DELOREAN_DELOREAN_H
 
-#include "InputHandler.h"
 #include "commands/CommandSwitch.h"
 #include "data/TemporalDatastore.h"
 
@@ -16,7 +15,6 @@ public:
     int start();
 
 private:
-    InputHandler inputHandler;
     CommandSwitch commandSwitch;
     TemporalDatastore temporalDatastore;
 };
